@@ -11,9 +11,11 @@ RUN unzip /tmp/bugstage.zip -d /app/ && rm /tmp/bugstage.zip
 
 WORKDIR /app
 
-EXPOSE 8080
+VOLUME /app/pb_data
+
+EXPOSE 8090 8022
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD wget -q -O /dev/null http://localhost:8080/api/health || exit 1
+  CMD wget -q -O /dev/null http://localhost:8090/api/health || exit 1
 
-ENTRYPOINT ["/app/bugstage", "serve", "--http=0.0.0.0:8080"]
+ENTRYPOINT ["/app/bugstage", "serve"]
